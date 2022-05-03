@@ -4,7 +4,7 @@ export type MicroCMSIframeOptions = {
   origin: string
 }
 
-export type Message<T> = {
+export type Message<T = any> = {
   id?: string
   title?: string
   description?: string
