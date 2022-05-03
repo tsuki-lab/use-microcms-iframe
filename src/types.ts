@@ -16,7 +16,12 @@ export type Message<T> = {
 export type MicroCMSIframeState<T> = {
   iframeId: string
   origin: string
-  message: Partial<Message<T>>
+  // NOTE: Release to 2022/5/10
+  // https://blog.microcms.io/update-iframe/
+  // user: {
+  //   email: string
+  // }
+  defaultMessage: Partial<Message<T>>
 }
 
 export type MicroCMSIframePostState<T> =
@@ -32,6 +37,7 @@ export type GetDefaultDataMessage<T> = {
   action: 'MICROCMS_GET_DEFAULT_DATA'
   message?: Partial<Message<T>>
   // NOTE: Release to 2022/5/10
+  // https://blog.microcms.io/update-iframe/
   // user: {
   //   email: string
   // }

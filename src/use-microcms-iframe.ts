@@ -26,7 +26,7 @@ const defaultMessage = {
 export const useMicroCMSIframe = <T>(
   options?: Partial<MicroCMSIframeOptions>
 ): [
-  message: Partial<Message<T>>,
+  defaultMessage: Partial<Message<T>>,
   postHandler: (payload: Partial<Message<T>>) => void,
   postState?: MicroCMSIframePostState<T>
 ] => {
@@ -35,7 +35,7 @@ export const useMicroCMSIframe = <T>(
   const [state, setState] = useState<MicroCMSIframeState<T>>({
     iframeId: '',
     origin: '',
-    message: defaultMessage,
+    defaultMessage,
   })
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const useMicroCMSIframe = <T>(
             setState({
               iframeId: e.data.id,
               origin: e.origin,
-              message: e.data.message || defaultMessage,
+              defaultMessage: e.data.message || defaultMessage,
             })
 
             const updateStyleMessage: UpdateStyleMessage = {
@@ -94,5 +94,5 @@ export const useMicroCMSIframe = <T>(
     [state]
   )
 
-  return [state.message, postHandler, postState]
+  return [state.defaultMessage, postHandler, postState]
 }
