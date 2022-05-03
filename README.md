@@ -1,6 +1,6 @@
 # useMicroCMSIframe
 
-microCMS の[外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field)で必要なイベントをカスタム Hooks 化したパッケージです。
+microCMS の[外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field)で利用するイベントをカスタムフック化したパッケージです。
 
 ## Quick start
 
