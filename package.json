@@ -1,6 +1,6 @@
 {
   "name": "use-microcms-iframe",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Custom Hooks to create iframe fields for microCMS",
   "module": "./dist/index.mjs",
   "exports": {
