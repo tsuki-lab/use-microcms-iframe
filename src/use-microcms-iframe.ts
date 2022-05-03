@@ -43,12 +43,13 @@ export const useMicroCMSIframe = <T>(
       mounted.current = true
       window.addEventListener('message', (e: MicroCMSMessageEvent<T>) => {
         if (e.isTrusted !== true) return
+        const origin = options?.origin || e.origin
 
         switch (e.data.action) {
           case 'MICROCMS_GET_DEFAULT_DATA': {
             setState({
               iframeId: e.data.id,
-              origin: e.origin,
+              origin,
               defaultMessage: e.data.message || defaultMessage,
             })
 
@@ -61,10 +62,7 @@ export const useMicroCMSIframe = <T>(
               }),
             }
 
-            window.parent.postMessage(
-              updateStyleMessage,
-              options?.origin || e.origin
-            )
+            window.parent.postMessage(updateStyleMessage, origin)
             break
           }
 
