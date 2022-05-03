@@ -24,9 +24,7 @@ export type MicroCMSIframeState<T> = {
   defaultMessage: Partial<Message<T>>
 }
 
-export type MicroCMSIframePostState<T> =
-  | PostDataSuccessMessage<T>
-  | PostDataFailureMessage
+export type MicroCMSIframePostState<T> = PostDataSuccessMessage<T> | PostDataFailureMessage
 
 export type ParsedMessageEventData<T> = Omit<MessageEvent, 'data'> & {
   data: T
