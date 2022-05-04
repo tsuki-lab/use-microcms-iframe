@@ -1,9 +1,11 @@
-export type MicroCMSIframeOptions = {
-  height: string | number
-  width: string | number
-  origin: string
+export type MicroCMSIframeOptions<T> = {
+  height?: string | number
+  width?: string | number
+  origin?: string
+  parsePostMessageParams: (data: T | null) => Partial<Message<T>>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Message<T = any> = {
   id?: string
   title?: string

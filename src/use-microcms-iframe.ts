@@ -23,20 +23,27 @@ const defaultMessage = {
   data: null,
 }
 
+const defaultParsePostMessageParams = <T>(data: T | null) => ({ data })
+
 export const useMicroCMSIframe = <T>(
-  options?: Partial<MicroCMSIframeOptions>
+  options: MicroCMSIframeOptions<T>
 ): [
-  defaultMessage: Partial<Message<T>>,
-  postHandler: (payload: Partial<Message<T>>) => void,
-  postState?: MicroCMSIframePostState<T>
+  state: T | null,
+  setState: React.Dispatch<React.SetStateAction<T | null>>,
+  postState: MicroCMSIframePostState<T> | undefined,
+  postMessageHandler: (message: Partial<Message<T>>) => void
 ] => {
+  const { parsePostMessageParams = defaultParsePostMessageParams } = options
+
   const mounted = useRef(false)
-  const [postState, setPostState] = useState<MicroCMSIframePostState<T>>()
-  const [state, setState] = useState<MicroCMSIframeState<T>>({
+
+  const [messageDataState, setMessageDataState] = useState<T | null>(null)
+  const [microCMSState, setMicroCMSState] = useState<MicroCMSIframeState<T>>({
     iframeId: '',
     origin: '',
     defaultMessage,
   })
+  const [postState, setPostState] = useState<MicroCMSIframePostState<T>>()
 
   useEffect(() => {
     if (!mounted.current) {
@@ -47,11 +54,12 @@ export const useMicroCMSIframe = <T>(
 
         switch (e.data.action) {
           case 'MICROCMS_GET_DEFAULT_DATA': {
-            setState({
+            setMicroCMSState({
               iframeId: e.data.id,
               origin,
               defaultMessage: e.data.message || defaultMessage,
             })
+            setMessageDataState(e.data.message?.data || null)
 
             const updateStyleMessage: UpdateStyleMessage = {
               id: e.data.id,
@@ -77,20 +85,25 @@ export const useMicroCMSIframe = <T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const postHandler = useCallback(
+  const postMessageHandler = useCallback(
     (message: Partial<Message<T>>) => {
-      if (state.iframeId && state.origin) {
+      if (microCMSState.iframeId && microCMSState.origin) {
         const postDataMessage: PostDataMessage<T> = {
-          id: state.iframeId,
+          id: microCMSState.iframeId,
           action: 'MICROCMS_POST_DATA',
           message: message,
         }
 
-        window.parent.postMessage(postDataMessage, state.origin)
+        window.parent.postMessage(postDataMessage, microCMSState.origin)
       }
     },
-    [state]
+    [microCMSState]
   )
 
-  return [state.defaultMessage, postHandler, postState]
+  useEffect(() => {
+    const message = parsePostMessageParams(messageDataState)
+    postMessageHandler(message)
+  }, [messageDataState, parsePostMessageParams, postMessageHandler])
+
+  return [messageDataState, setMessageDataState, postState, postMessageHandler]
 }
