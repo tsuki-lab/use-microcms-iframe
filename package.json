@@ -1,21 +1,16 @@
 {
   "name": "use-microcms-iframe",
-  "version": "0.1.5",
+  "version": "0.1.18",
   "description": "Custom Hooks to create iframe fields for microCMS",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.cjs"
-  },
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.esm.js",
   "types": "./dist/index.d.ts",
   "files": [
     "/dist"
   ],
   "scripts": {
     "build": "run-p build:*",
-    "build:mjs": "esbuild src/index.ts --bundle --minify --define:process.env.NODE_ENV=production --format=esm --outfile=dist/index.mjs",
-    "build:cjs": "esbuild src/index.ts --bundle --minify --define:process.env.NODE_ENV=production --format=cjs --outfile=dist/index.cjs",
+    "build:esbuild": "node build.js",
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir './dist'",
     "lint": "eslint . --ext .ts",
     "format": "prettier --config .prettierrc.json --write './**/*.{ts,js,md}'",
@@ -38,6 +33,7 @@
   },
   "homepage": "https://github.com/tsuki-lab/use-microcms-iframe#readme",
   "devDependencies": {
+    "@types/react": "^18.0.8",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "esbuild": "^0.14.38",
@@ -54,10 +50,6 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "@types/react": "^18.0.8",
     "react": "^18.1.0"
-  },
-  "peerDependencies": {
-    "react": ">=16.12.0"
   }
 }
