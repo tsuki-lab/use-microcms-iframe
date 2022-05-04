@@ -1,6 +1,6 @@
 {
   "name": "use-microcms-iframe",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Custom Hooks to create iframe fields for microCMS",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -56,5 +56,8 @@
   },
   "dependencies": {
     "react": "^18.1.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.12.0"
   }
 }
