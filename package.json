@@ -24,7 +24,8 @@
   },
   "keywords": [
     "microcms",
-    "react-hooks"
+    "react",
+    "typescript"
   ],
   "author": "hanetsuki <me@tsuki-lab.net>",
   "license": "MIT",
