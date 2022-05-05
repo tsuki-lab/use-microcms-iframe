@@ -13,14 +13,10 @@ Use simple.
 ```tsx
 import { useMicroCMSIframe } from 'use-microcms-iframe'
 
-type FormState = {
-  id: string
-}
-
 export const Component: React.FC = () => {
-  const [state, setState] = useMicroCMSIframe<FormState>()
+  const [state, setState] = useMicroCMSIframe({ text: '' })
 
-  return <input type="text" value={state.id} onChange={(e) => setState({ id: e.target.value })} />
+  return <input type="text" value={state.text} onChange={(e) => setState({ text: e.target.value })} />
 }
 ```
 
@@ -31,7 +27,7 @@ type State = {
   // ...
 }
 
-const [state, setState, postState, postMessageHandler] = useMicroCMSIframe<State>(options)
+const [state, setState, postState, postMessageHandler] = useMicroCMSIframe<State>(initialState, options)
 ```
 
 ### state
@@ -92,9 +88,13 @@ API レスポンス用のフィールド。指定した値が実際にコンテ�
 
 [データの送信｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#h7f543cc470)
 
+### initialState
+
+[State](#state)の初期値になります。任意で渡すことができ、default は`null`です。
+
 ### options
 
-`useMicroCMSIframe`の第一引数にオプションを渡すことができます。<br>
+`useMicroCMSIframe`の第二引数にオプションを渡すことができます。<br>
 アクションタイプ`MICROCMS_UPDATE_STYLE`に渡す message データ、[setState](#setstate)時に microCMS に登録する情報を変更するメソッド、`window.parent.postMessage`の第二引数を指定することができます。origin を指定することで、よりセキュアな通信を行うことができます。（デフォルトで iframe を読み込んだ microCMS 管理画面の URL を動的に取得します。）
 
 ```ts
@@ -117,3 +117,36 @@ const options = {
 | parsePostMessageParams | url string (default: (data) => ({ data })) |
 
 [スタイルの変更｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#hddc40608fe)
+
+## Development
+
+### Install dependencies
+
+```shell
+pnpm install
+# or `pnpm i`
+```
+
+### Production build
+
+```shell
+pnpm build
+```
+
+### Production watch build
+
+```shell
+pnpm watch
+```
+
+### Install dependencies example
+
+```shell
+pnpm example:install
+```
+
+### Wake up local server example
+
+```shell
+pnpm example:dev
+```
