@@ -26,18 +26,19 @@ const defaultMessage = {
 const defaultParsePostMessageParams = <T>(data: T | null) => ({ data })
 
 export const useMicroCMSIframe = <T>(
-  options: MicroCMSIframeOptions<T>
+  initialMessageDataState?: T,
+  options?: MicroCMSIframeOptions<T>
 ): [
   state: T | null,
   setState: React.Dispatch<React.SetStateAction<T | null>>,
   postState: MicroCMSIframePostState<T> | undefined,
   postMessageHandler: (message: Partial<Message<T>>) => void
 ] => {
-  const { parsePostMessageParams = defaultParsePostMessageParams } = options
+  const parsePostMessageParams = options?.parsePostMessageParams || defaultParsePostMessageParams
 
   const mounted = useRef(false)
 
-  const [messageDataState, setMessageDataState] = useState<T | null>(null)
+  const [messageDataState, setMessageDataState] = useState<T | null>(initialMessageDataState || null)
   const [microCMSState, setMicroCMSState] = useState<MicroCMSIframeState<T>>({
     iframeId: '',
     origin: '',
@@ -45,6 +46,7 @@ export const useMicroCMSIframe = <T>(
   })
   const [postState, setPostState] = useState<MicroCMSIframePostState<T>>()
 
+  /** Initialize useMicroCMSIframe.  */
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true
@@ -59,7 +61,7 @@ export const useMicroCMSIframe = <T>(
               origin,
               defaultMessage: e.data.message || defaultMessage,
             })
-            setMessageDataState(e.data.message?.data || null)
+            setMessageDataState(e.data.message?.data || initialMessageDataState || null)
 
             const updateStyleMessage: UpdateStyleMessage = {
               id: e.data.id,
@@ -100,6 +102,7 @@ export const useMicroCMSIframe = <T>(
     [microCMSState]
   )
 
+  /** Execute postMessageHandler when updated messageDataState.  */
   useEffect(() => {
     const message = parsePostMessageParams(messageDataState)
     postMessageHandler(message)
