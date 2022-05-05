@@ -10,6 +10,7 @@ const shared = {
   logLevel: 'info',
   minify: true,
   sourcemap: false,
+  watch: process.env.NODE_ENV === 'development',
 }
 
 build({
