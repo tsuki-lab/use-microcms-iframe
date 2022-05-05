@@ -27,7 +27,7 @@ const defaultParsePostMessageParams = <T>(data: T | null) => ({ data })
 
 export const useMicroCMSIframe = <T>(
   initialMessageDataState?: T,
-  options?: MicroCMSIframeOptions<T>
+  options?: Partial<MicroCMSIframeOptions<T>>
 ): [
   state: T | null,
   setState: React.Dispatch<React.SetStateAction<T | null>>,

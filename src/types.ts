@@ -1,7 +1,7 @@
 export type MicroCMSIframeOptions<T> = {
-  height?: string | number
-  width?: string | number
-  origin?: string
+  height: string | number
+  width: string | number
+  origin: string
   parsePostMessageParams: (data: T | null) => Partial<Message<T>>
 }
 
