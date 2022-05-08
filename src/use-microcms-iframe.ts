@@ -54,6 +54,8 @@ export const useMicroCMSIframe = <T>(
         if (e.isTrusted !== true) return
         const origin = options?.origin || e.origin
 
+        if (origin !== e.origin && origin !== '*') return
+
         switch (e.data.action) {
           case 'MICROCMS_GET_DEFAULT_DATA': {
             setMicroCMSState({
