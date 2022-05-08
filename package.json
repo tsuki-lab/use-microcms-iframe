@@ -15,8 +15,6 @@
     "watch": "run-p watch:*",
     "watch:esbuild": "NODE_ENV=development ts-node build.ts",
     "watch:types": "tsc --watch --declaration --emitDeclarationOnly --declarationDir './dist'",
-    "example:install:": "cd ./example && pnpm install",
-    "example:dev": "cd ./example && pnpm dev",
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --config .prettierrc.json --write './**/*.{ts,js,md}'",
     "fix": "pnpm format && pnpm lint --fix",
