@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Message,
   MicroCMSIframeOptions,
   MicroCMSIframePostState,
   MicroCMSIframeState,
   MicroCMSMessageEvent,
+  ParseGetDefaultData,
+  ParsePostMessageParams,
   PostDataMessage,
   UpdateStyleMessage,
+  UseMicroCMSIframe,
 } from './types'
 
 const defaultStyles = {
@@ -23,20 +26,16 @@ const defaultMessage = {
   data: null,
 }
 
-const defaultParsePostMessageParams = <T>(data: T | null) => ({ data })
+const defaultParseGetDefaultData: ParseGetDefaultData = (defaultMessage) => defaultMessage?.data ?? null
 
-export const useMicroCMSIframe = <T>(
+const defaultParsePostMessageParams: ParsePostMessageParams = (data) => ({ data })
+
+export const useMicroCMSIframe: UseMicroCMSIframe = <T>(
   initialMessageDataState?: T,
-  options?: Partial<MicroCMSIframeOptions<T>>
-): [
-  state: T | null,
-  setState: React.Dispatch<React.SetStateAction<T | null>>,
-  postState: MicroCMSIframePostState<T> | undefined,
-  postMessageHandler: (message: Partial<Message<T>>) => void
-] => {
+  options?: Partial<MicroCMSIframeOptions>
+) => {
   const parsePostMessageParams = options?.parsePostMessageParams || defaultParsePostMessageParams
-
-  const mounted = useRef(false)
+  const parseGetDefaultData = options?.parseGetDefaultData || defaultParseGetDefaultData
 
   const [messageDataState, setMessageDataState] = useState<T | null>(initialMessageDataState || null)
   const [microCMSState, setMicroCMSState] = useState<MicroCMSIframeState<T>>({
@@ -51,8 +50,7 @@ export const useMicroCMSIframe = <T>(
 
   /** Initialize useMicroCMSIframe.  */
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true
+    return () => {
       window.addEventListener('message', (e: MicroCMSMessageEvent<T>) => {
         if (e.isTrusted !== true) return
         const origin = options?.origin || e.origin
@@ -67,7 +65,8 @@ export const useMicroCMSIframe = <T>(
               defaultMessage: e.data.message || defaultMessage,
               user: e.data.user,
             })
-            setMessageDataState(e.data.message?.data || initialMessageDataState || null)
+            const messageData = parseGetDefaultData(e.data.message) || initialMessageDataState || null
+            setMessageDataState(messageData)
 
             const updateStyleMessage: UpdateStyleMessage = {
               id: e.data.id,
@@ -112,7 +111,8 @@ export const useMicroCMSIframe = <T>(
   useEffect(() => {
     const message = parsePostMessageParams(messageDataState)
     postMessageHandler(message)
-  }, [messageDataState, parsePostMessageParams, postMessageHandler])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageDataState, postMessageHandler])
 
-  return [messageDataState, setMessageDataState, postState, postMessageHandler]
+  return [messageDataState, setMessageDataState, postState, microCMSState]
 }
