@@ -1,9 +1,9 @@
-export type ParseGetDefaultData = <T>(defaultMessage?: Partial<Message<T>>) => T | null
-export type ParsePostMessageParams = <T>(data: T | null) => Partial<Message<T>>
+export type ParseGetDefaultData<T> = (defaultMessage?: Partial<Message<T>>) => T | null
+export type ParsePostMessageParams<T> = (data: T | null) => Partial<Message<T>>
 
 export type UseMicroCMSIframe = <T>(
   initialMessageDataState?: T,
-  options?: Partial<MicroCMSIframeOptions>
+  options?: Partial<MicroCMSIframeOptions<T>>
 ) => [
   messageDataState: T | null,
   setMessageDataState: React.Dispatch<React.SetStateAction<T | null>>,
@@ -11,12 +11,12 @@ export type UseMicroCMSIframe = <T>(
   microCMSState: MicroCMSIframeState<T>
 ]
 
-export type MicroCMSIframeOptions = {
+export type MicroCMSIframeOptions<T> = {
   height: string | number
   width: string | number
   origin: string
-  parseGetDefaultData: ParseGetDefaultData
-  parsePostMessageParams: ParsePostMessageParams
+  parseGetDefaultData: ParseGetDefaultData<T>
+  parsePostMessageParams: ParsePostMessageParams<T>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

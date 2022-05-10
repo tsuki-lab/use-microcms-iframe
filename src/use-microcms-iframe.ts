@@ -26,14 +26,12 @@ const defaultMessage = {
   data: null,
 }
 
-const defaultParseGetDefaultData: ParseGetDefaultData = (defaultMessage) => defaultMessage?.data ?? null
-
-const defaultParsePostMessageParams: ParsePostMessageParams = (data) => ({ data })
-
 export const useMicroCMSIframe: UseMicroCMSIframe = <T>(
   initialMessageDataState?: T,
-  options?: Partial<MicroCMSIframeOptions>
+  options?: Partial<MicroCMSIframeOptions<T>>
 ) => {
+  const defaultParseGetDefaultData: ParseGetDefaultData<T> = (defaultMessage) => defaultMessage?.data ?? null
+  const defaultParsePostMessageParams: ParsePostMessageParams<T> = (data) => ({ data })
   const parsePostMessageParams = options?.parsePostMessageParams || defaultParsePostMessageParams
   const parseGetDefaultData = options?.parseGetDefaultData || defaultParseGetDefaultData
 
