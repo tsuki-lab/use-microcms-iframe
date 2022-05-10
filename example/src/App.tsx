@@ -5,7 +5,7 @@ import './app.css'
 
 function App() {
   const [state, setState] = useMicroCMSIframe('', {
-    height: 500,
+    height: 300,
     origin: import.meta.env.VITE_MICROCMS_SERVICE_URL,
     parseGetDefaultData: (defaultMessage) => {
       return defaultMessage?.description ?? ''
