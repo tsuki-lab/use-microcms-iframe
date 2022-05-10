@@ -18,11 +18,9 @@ export type Message<T = any> = {
 export type MicroCMSIframeState<T> = {
   iframeId: string
   origin: string
-  // NOTE: Release to 2022/5/10
-  // https://blog.microcms.io/update-iframe/
-  // user: {
-  //   email: string
-  // }
+  user: {
+    email: string
+  }
   defaultMessage: Partial<Message<T>>
 }
 
@@ -36,11 +34,9 @@ export type GetDefaultDataMessage<T> = {
   id: string
   action: 'MICROCMS_GET_DEFAULT_DATA'
   message?: Partial<Message<T>>
-  // NOTE: Release to 2022/5/10
-  // https://blog.microcms.io/update-iframe/
-  // user: {
-  //   email: string
-  // }
+  user: {
+    email: string
+  }
 }
 
 export type PostDataSuccessMessage<T> = {

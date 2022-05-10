@@ -43,6 +43,9 @@ export const useMicroCMSIframe = <T>(
     iframeId: '',
     origin: '',
     defaultMessage,
+    user: {
+      email: '',
+    },
   })
   const [postState, setPostState] = useState<MicroCMSIframePostState<T>>()
 
@@ -62,6 +65,7 @@ export const useMicroCMSIframe = <T>(
               iframeId: e.data.id,
               origin,
               defaultMessage: e.data.message || defaultMessage,
+              user: e.data.user,
             })
             setMessageDataState(e.data.message?.data || initialMessageDataState || null)
 
