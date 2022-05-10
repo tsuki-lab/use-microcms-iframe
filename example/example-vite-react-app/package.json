@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "example-vite-react-app",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "use-microcms-iframe": "link:.."
+    "use-microcms-iframe": "^0.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

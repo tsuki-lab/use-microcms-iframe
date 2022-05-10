@@ -4,8 +4,17 @@
     "module": "CommonJS",
     "declaration": true,
     "strict": true,
-    "lib": ["ES2020", "dom"]
+    "skipLibCheck": true,
+    "lib": [
+      "ES2020",
+      "dom"
+    ]
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/**/*",
+    "src/use-microcms-iframe.test.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

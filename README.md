@@ -97,29 +97,14 @@ API レスポンス用のフィールド。指定した値が実際にコンテ�
 
 ### options
 
-`useMicroCMSIframe`の第二引数にオプションを渡すことができます。<br>
-アクションタイプ`MICROCMS_UPDATE_STYLE`に渡す message データ、[setState](#setstate)時に microCMS に登録する情報を変更するメソッド、`window.parent.postMessage`の第二引数を指定することができます。origin を指定することで、よりセキュアな通信を行うことができます。（デフォルトで iframe を読み込んだ microCMS 管理画面の URL を動的に取得します。）
+`useMicroCMSIframe`の第二引数にオプションを渡すことができます。
 
-```ts
-const options = {
-  height: 500,
-  width: '100%',
-  origin: 'https://example.microcms.io',
-  parsePostMessageParams: (data) => ({
-    title: data?.title || '',
-    data,
-  }),
-}
-```
-
-| key                    | description                                |
-| ---------------------- | ------------------------------------------ |
-| height                 | string \| number (default: 300)            |
-| width                  | string \| number (default: '100%')         |
-| origin                 | url string (default: MessageEvent.origin)  |
-| parsePostMessageParams | url string (default: (data) => ({ data })) |
-
-[スタイルの変更｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#hddc40608fe)
+| Option                 | Type             | Default              | Description                                                                                               |
+| ---------------------- | ---------------- | -------------------- | --------------------------------------------------------------------------------------------------------- |
+| height                 | string \| number | 300                  | microCMS に表示する高さを指定できます                                                                     |
+| width                  | string \| number | '100%'               | microCMS に表示する横幅を指定できます                                                                     |
+| origin                 | string           | MessageEvent.origin  | microCMS 管理画面 URL（https://example.microcms.microcms.io）を指定して、セキュアに通信することができます |
+| parsePostMessageParams | (data: T) => T   | (data) => ({ data }) | `setState`実行時に microCMS に通知を送る際のパースすることができます                                      |
 
 ## Development
 
