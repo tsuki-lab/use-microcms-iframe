@@ -30,7 +30,7 @@ type State = {
   // ...
 }
 
-const [state, setState, postState, postMessageHandler] = useMicroCMSIframe<State>(initialState, options)
+const [state, setState, postState, microCMSState] = useMicroCMSIframe<State>(initialState, options)
 ```
 
 ### state
