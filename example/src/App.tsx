@@ -1,24 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useMicroCMSIframe } from 'use-microcms-iframe'
 import 'ress'
 import './app.css'
 
 function App() {
-  const [state, setState] = useMicroCMSIframe('', {
-    height: 300,
-    origin: import.meta.env.VITE_MICROCMS_SERVICE_URL,
-    parseGetDefaultData: (defaultMessage) => {
-      return defaultMessage?.description ?? ''
-    },
-    parsePostMessageParams: (data) => {
-      return {
-        description: data ?? '',
-        data: null,
-      }
-    },
-  })
+  const { state, post } = useMicroCMSIframe<string>()
 
-  return <textarea value={state ?? ''} onChange={(e) => setState(e.target.value)} />
+  return <textarea
+    value={state?.message?.data ?? ''}
+    onChange={(e) => {
+      post({
+        description: e.target.value,
+        data: e.target.value
+      })
+    }} />
 }
 
 export default App
