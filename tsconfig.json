@@ -11,10 +11,10 @@
     ]
   },
   "include": [
-    "./src/**/*",
-    "src/use-microcms-iframe.test.ts"
+    "./src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "./src/**/*.spec.ts"
   ]
 }

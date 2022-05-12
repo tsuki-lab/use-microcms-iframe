@@ -1,84 +1,59 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Message,
-  MicroCMSIframeOptions,
   MicroCMSIframePostState,
-  MicroCMSIframeState,
   MicroCMSMessageEvent,
-  PostDataMessage,
   UpdateStyleMessage,
-} from './types'
+  UseMicroCMSIframeState,
+  UseMicroCMSIframeOptions,
+  UseMicroCMSIframeReturnValue,
+  UseMicroCMSIframePost,
+} from './use-microcms-iframe.types'
+import { postIframeMessage } from './use-microcms-iframe.utils'
 
-const defaultStyles = {
-  height: 300,
-  width: '100%',
-}
-
-const defaultMessage = {
-  id: '',
-  title: '',
-  description: '',
-  imageUrl: '',
-  updatedAt: '',
-  data: null,
-}
-
-const defaultParsePostMessageParams = <T>(data: T | null) => ({ data })
+const defaultStyles = { height: 300, width: '100%' } as const
 
 export const useMicroCMSIframe = <T>(
-  initialMessageDataState?: T,
-  options?: Partial<MicroCMSIframeOptions<T>>
-): [
-  state: T | null,
-  setState: React.Dispatch<React.SetStateAction<T | null>>,
-  postState: MicroCMSIframePostState<T> | undefined,
-  postMessageHandler: (message: Partial<Message<T>>) => void
-] => {
-  const parsePostMessageParams = options?.parsePostMessageParams || defaultParsePostMessageParams
-
-  const mounted = useRef(false)
-
-  const [messageDataState, setMessageDataState] = useState<T | null>(initialMessageDataState || null)
-  const [microCMSState, setMicroCMSState] = useState<MicroCMSIframeState<T>>({
-    iframeId: '',
-    origin: '',
-    defaultMessage,
-    user: {
-      email: '',
-    },
-  })
+  options?: UseMicroCMSIframeOptions
+): UseMicroCMSIframeReturnValue<T> => {
+  const [id, setId] = useState('')
+  const [origin, setOrigin] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState<Message<T>>()
   const [postState, setPostState] = useState<MicroCMSIframePostState<T>>()
 
-  /** Initialize useMicroCMSIframe.  */
+  const state = useMemo<UseMicroCMSIframeState<T> | undefined>(() => {
+    if (!id || !origin) return
+    return {
+      id,
+      origin,
+      user: { email },
+      message,
+    }
+  }, [email, id, message, origin])
+
+  const updateStyleMessage: UpdateStyleMessage = Object.assign(defaultStyles, {
+    height: options?.height,
+    width: options?.width,
+  })
+
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true
+    const setUpIframe = () => {
       window.addEventListener('message', (e: MicroCMSMessageEvent<T>) => {
         if (e.isTrusted !== true) return
+
         const origin = options?.origin || e.origin
 
         if (origin !== e.origin && origin !== '*') return
 
         switch (e.data.action) {
           case 'MICROCMS_GET_DEFAULT_DATA': {
-            setMicroCMSState({
-              iframeId: e.data.id,
-              origin,
-              defaultMessage: e.data.message || defaultMessage,
-              user: e.data.user,
-            })
-            setMessageDataState(e.data.message?.data || initialMessageDataState || null)
+            setId(e.data.id)
+            setOrigin(origin)
+            setEmail(e.data.user.email)
+            setMessage(e.data.message)
 
-            const updateStyleMessage: UpdateStyleMessage = {
-              id: e.data.id,
-              action: 'MICROCMS_UPDATE_STYLE',
-              message: Object.assign(defaultStyles, {
-                height: options?.height,
-                width: options?.width,
-              }),
-            }
-
-            window.parent.postMessage(updateStyleMessage, origin)
+            postIframeMessage('style', updateStyleMessage, e.data.id, origin)
             break
           }
 
@@ -90,29 +65,22 @@ export const useMicroCMSIframe = <T>(
         }
       })
     }
+    return setUpIframe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const postMessageHandler = useCallback(
-    (message: Partial<Message<T>>) => {
-      if (microCMSState.iframeId && microCMSState.origin) {
-        const postDataMessage: PostDataMessage<T> = {
-          id: microCMSState.iframeId,
-          action: 'MICROCMS_POST_DATA',
-          message: message,
-        }
-
-        window.parent.postMessage(postDataMessage, microCMSState.origin)
+  const post = useCallback<UseMicroCMSIframePost>(
+    <T>(message: Message<T>): void => {
+      if (id !== '' && origin !== '') {
+        postIframeMessage('data', message, id, origin)
       }
     },
-    [microCMSState]
+    [id, origin]
   )
 
-  /** Execute postMessageHandler when updated messageDataState.  */
-  useEffect(() => {
-    const message = parsePostMessageParams(messageDataState)
-    postMessageHandler(message)
-  }, [messageDataState, parsePostMessageParams, postMessageHandler])
-
-  return [messageDataState, setMessageDataState, postState, postMessageHandler]
+  return {
+    state,
+    post,
+    postState,
+  }
 }

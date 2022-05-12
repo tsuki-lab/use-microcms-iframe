@@ -1,6 +1,6 @@
 {
   "name": "use-microcms-iframe",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Custom Hooks to create iframe fields for microCMS",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.esm.js",
@@ -49,7 +49,6 @@
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^7.0.0",

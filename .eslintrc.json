@@ -24,13 +24,16 @@
     "@typescript-eslint",
     "react",
     "react-hooks",
-    "import",
-    "prettier"
+    "import"
   ],
   "rules": {
-    "semi": ["error", "never"],
-    "prettier/prettier": ["error"],
-    "require-jsdoc": ["off"],
-    "import/order": ["error", { "alphabetize": { "order": "asc" } }]
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ]
   }
 }
