@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/use-microcms-iframe.svg)](https://badge.fury.io/js/use-microcms-iframe)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-microCMS の[外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field)で利用するイベントをカスタムフック化したパッケージです。
+microCMS の[外部データ連携（拡張フィールド）](https://document.microcms.io/manual/iframe-field)で利用するイベントをカスタムフック化したパッケージです。
 
 このパッケージでは、[useMicroCMSIframe](#usemicrocmsiframe)と[useStateMicroCMSIframe]()という二つのカスタムフックを提供しています。
 
@@ -82,7 +82,7 @@ const { state, post, postState } = useMicroCMSIframe<State>(options)
 
 アクションタイプ `MICROCMS_GET_DEFAULT_DATA` で獲得した **State** を取り扱うことができます。
 
-[初期値の取得｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#h9e44c21a42)
+[初期値の取得｜外部データ連携（拡張フィールド）](https://document.microcms.io/manual/iframe-field#h9e44c21a42)
 
 ### post
 
@@ -100,7 +100,7 @@ type UseMicroCMSIframePost = <State>(message: {
 }) => void
 ```
 
-[データの送信｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#h7f543cc470)
+[データの送信｜外部データ連携（拡張フィールド）](https://document.microcms.io/manual/iframe-field#h7f543cc470)
 
 ### postState
 
@@ -126,7 +126,7 @@ export type PostDataFailureMessage = {
 }
 ```
 
-[レスポンス｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#h349fe0c3e0)
+[レスポンス｜外部データ連携（拡張フィールド）](https://document.microcms.io/manual/iframe-field#h349fe0c3e0)
 
 ## Options
 
@@ -192,7 +192,7 @@ const [state, setState] = useStateMicroCMSIframe<State>(initialState, options)
 アクションタイプ`MICROCMS_POST_DATA`を実行する際の Message を整形するためのオプションです。<br>
 デフォルトでは、State の情報を`data`と`description`に紐づけられるように設定されています。
 
-[データの送信｜外部データ連携（iframe フィールド）](https://document.microcms.io/manual/iframe-field#h7f543cc470)
+[データの送信｜外部データ連携（拡張フィールド）](https://document.microcms.io/manual/iframe-field#h7f543cc470)
 
 #### example
 
