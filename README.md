@@ -1,3 +1,6 @@
+# ⚠️ This package is now deprecated
+The use-microcms-iframe is now deprecated. From now on, the package react-microcms-extension will be used for updates and support.
+
 # use-microcms-iframe
 
 [![npm version](https://badge.fury.io/js/use-microcms-iframe.svg)](https://badge.fury.io/js/use-microcms-iframe)
