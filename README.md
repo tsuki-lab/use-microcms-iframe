@@ -1,5 +1,6 @@
 # ⚠️ This package is now deprecated
-The use-microcms-iframe is now deprecated. From now on, the package react-microcms-extension will be used for updates and support.
+
+The use-microcms-iframe is now deprecated. From now on, the package [react-microcms-extension](https://github.com/tsuki-lab/react-microcms-extension) will be used for updates and support.
 
 # use-microcms-iframe
 
