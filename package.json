@@ -58,7 +58,7 @@
     "react-dom": "^18.1.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
-    "vitest": "^0.12.0"
+    "vitest": "^0.34.6"
   },
   "dependencies": {
     "react": "^18.1.0"
